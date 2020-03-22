@@ -1,0 +1,22 @@
+{
+  "name": "my-typescript",
+  "version": "1.0.0",
+  "description": "my typescript stuff",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/obpFin/my-typescript.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/obpFin/my-typescript/issues"
+  },
+  "homepage": "https://github.com/obpFin/my-typescript#readme",
+  "devDependencies": {
+    "lite-server": "^2.5.4"
+  }
+}
