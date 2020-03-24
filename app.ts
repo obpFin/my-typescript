@@ -1,48 +1,33 @@
-// const person: {
-//   name: string;
-//   age: number;
-// } = {            Better to let typeScript infer the type for the object
-const person: {
-  name: string;
-  age: number;
-  hobbies: string[];
-  role: [number, string];
-} = {
-  name: 'obp',
-  age: 30,
-  hobbies: ['Sports', 'Coding'],
-  role: [2, 'author'] // tuple: fixed length array
-};
-
-// person.role.push('admin'); // no error
-// person.role[1] = 10; // error! not assignable to type string
-// person.role = [0, 'test1', 'test2']; // error! types of property length are incompatible
-
-const ADMIN = 0;
-const READ_ONLY = 1;
-const AUTHOR = 2;
-
-enum Role {   // enumarated global constant identifier
-  ADMIN,
-  READ_ONLY,
-  AUTHOR
+function combine(
+  input1: number | string,
+  input2: number | string,
+  resultConversion: 'as-number' | 'as-text'   // literal type with union type
+) {
+  // union type
+  let result;
+  // with union types, you sometimes need extra runtime type checking
+  if (
+    (typeof input1 === 'number' && typeof input2 === 'number') ||
+    resultConversion === 'as-number'
+  ) {
+    result = +input1 + +input2;
+  } else {
+    result = input1.toString() + input2.toString();
+  }
+  return result;
+  // if (resultConversion === 'as-number') {
+  //   return +result;
+  // } else {
+  //   return result.toString();
+  // }
+  return result;
 }
 
-const person2 = {
-  name: 'dude',
-  age: 45,
-  hobbies: ['Sports', 'Coding'],
-  role: Role.AUTHOR
-};
+const combinedAges = combine(30, 26, 'as-number');
+console.log(combinedAges);
 
-let favoriteActivities: any[];    // any type of array
-favoriteActivities = ['Sports'];
+const combinedStringAges = combine('30', '21', 'as-number');
+console.log(combinedStringAges);
 
-console.log(person.name);
-
-for (const hobby of person.hobbies) {
-  console.log(hobby.toUpperCase());
-  // console.log(hobby.map()); // ERROR!
-}
-
-if (person2.role == Role.AUTHOR) console.log('is author');
+const combinedNames = combine('max', 'anna', 'as-text');
+console.log(combinedNames);
