@@ -1,9 +1,11 @@
+type Combinable = number | string; // custom type with union type
+type conversionDescriptor = 'as-number' | 'as-text' // custom type with literal union type
+
 function combine(
-  input1: number | string,
-  input2: number | string,
-  resultConversion: 'as-number' | 'as-text'   // literal type with union type
+  input1: Combinable,
+  input2: Combinable,
+  resultConversion: conversionDescriptor  
 ) {
-  // union type
   let result;
   // with union types, you sometimes need extra runtime type checking
   if (
