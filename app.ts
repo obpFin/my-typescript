@@ -1,14 +1,9 @@
-let userInput: unknown; // any variable can be assigned to any type,
-// but set type can't be assigned to unknown
+// to compile TS to JS
+// tsc app.ts
 
-let userName: string;
+// apply watch mode
+// tsc app.ts -w
 
-userInput = 5;
-userInput = '5';
-// userName = userInput; // Error!
-
-function generateError(message: string, code: number): never {    // never return value
-  throw { message, errorCode: code };
-}
-
-generateError('An error occurred', 500);
+// initialize TS project
+// tsc --init
+// now tsc compiles the whole project, or tsc -w
