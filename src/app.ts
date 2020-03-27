@@ -1,3 +1,5 @@
+console.log('app started');
+
 // to compile TS to JS
 // tsc app.ts
 
