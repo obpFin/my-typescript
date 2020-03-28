@@ -8,6 +8,7 @@ function add(n1: number, n2: number, showResult: boolean, phrase: string) {
   } else {
     return result;
   }
+  return;
 }
 
 let number1: number;  // type should be only declared when the var is not instanciated
