@@ -6,13 +6,18 @@ function Logger(logString: string) {
 }
 
 function WithTemplate(template: string, hookId: string) {
-  return function (constructor: any) {
-    const p = new constructor();
-    const hookEl = document.getElementById(hookId);
-    if (hookEl) {
-      hookEl.innerHTML = template;
-      hookEl.querySelector('h1')!.textContent = p.name;
-    }
+  return function<T extends {new(...arg: any[]): {name: string}}>(originalConstructor: T) {
+    // Returns new class
+    return class extends originalConstructor {
+      constructor(..._: any[]) {
+        super();
+        const hookEl = document.getElementById(hookId);
+        if (hookEl) {
+          hookEl.innerHTML = template;
+          hookEl.querySelector('h1')!.textContent = this.name;
+        }
+      }
+    };
   };
 }
 
@@ -37,11 +42,12 @@ function Log2(target: any, name: string, descriptor: PropertyDescriptor) {
   console.log(descriptor);
 }
 
-function Log3(target: any, name: string, descriptor: PropertyDescriptor) {
+function Log3(target: any, name: string, descriptor: PropertyDescriptor): PropertyDescriptor {
   console.log('Method decorator');
   console.log(target);
   console.log(name);
   console.log(descriptor);
+  return {}
 }
 
 function Log4(target: any, name: string, position: number) {
@@ -77,3 +83,35 @@ class Product {
 }
 
 const product = new Product('title', 224);
+
+// bind this to caller
+function Autobind(
+  _: any,
+  _2: string,
+  descriptor: PropertyDescriptor
+) {
+  const originalMethod = descriptor.value;
+  const adjustedDescriptor: PropertyDescriptor = {
+    configurable: true,
+    enumerable: false,
+    get() {
+      const boundFn = originalMethod.bind(this);
+      return boundFn;
+    },
+  };
+  return adjustedDescriptor;
+}
+
+class Printer {
+  message = 'This works!';
+  @Autobind
+  showMessage() {
+    console.log(this.message);
+  }
+}
+
+const p = new Printer();
+
+const printerButton = document.querySelector('button')!;
+printerButton.addEventListener('click', p.showMessage);
+
