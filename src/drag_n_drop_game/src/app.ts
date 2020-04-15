@@ -1,6 +1,10 @@
 // Decorators
 
-function Autobind2(target: any, methodName: string, descriptor: PropertyDescriptor) {
+function Autobind2(
+  target: any,
+  methodName: string,
+  descriptor: PropertyDescriptor
+) {
   const originalMethod = descriptor.value;
   const adjustedDescriptor: PropertyDescriptor = {
     configurable: true,
@@ -10,6 +14,51 @@ function Autobind2(target: any, methodName: string, descriptor: PropertyDescript
     },
   };
   return adjustedDescriptor;
+}
+
+// Validation
+
+interface Validatable {
+  value: string | number;
+  required?: boolean;
+  minLength?: number;
+  maxLength?: number;
+  min?: number;
+  max?: number;
+}
+
+function validate(validatableInput: Validatable) {
+  let isValid = true;
+  if (validatableInput.required) {
+    isValid = isValid && validatableInput.value.toString().trim().length !== 0;
+  }
+  if (
+    validatableInput.minLength &&
+    typeof validatableInput.value === 'string'
+  ) {
+    isValid == isValid &&
+      validatableInput.value.length >= validatableInput.minLength;
+  }
+  if (
+    validatableInput.maxLength &&
+    typeof validatableInput.value === 'string'
+  ) {
+    isValid == isValid &&
+      validatableInput.value.length <= validatableInput.maxLength;
+  }
+  if (
+    validatableInput.min != null &&
+    typeof validatableInput.value === 'number'
+  ) {
+    isValid = isValid && validatableInput.value >= validatableInput.min;
+  }
+  if (
+    validatableInput.max != null &&
+    typeof validatableInput.value === 'number'
+  ) {
+    isValid = isValid && validatableInput.value <= validatableInput.max;
+  }
+  return isValid;
 }
 
 // Project input class
@@ -49,10 +98,56 @@ class ProjectInput {
     this.attach();
   }
 
+  private gatherUserInput(): [string, string, number] | void {
+    const enteredTitle = this.titleinputElement.value;
+    const enteredDescription = this.descriptioninputElement.value;
+    const enteredPeople = this.peopleInputElement.value;
+
+    const titleValidatable: Validatable = {
+      value: enteredTitle,
+      required: true,
+    };
+
+    const descriptionValidatable: Validatable = {
+      value: enteredDescription,
+      required: true,
+      minLength: 5
+    };
+
+    const peopleValidatable: Validatable = {
+      value: +enteredPeople,
+      required: true,
+      min: 1,
+      max: 5
+    };
+
+    if (
+      !validate(titleValidatable) ||
+      !validate(descriptionValidatable) ||
+      !validate(peopleValidatable)
+    ) {
+      alert('Invalid input!');
+      return;
+    } else {
+      return [enteredTitle, enteredDescription, +enteredPeople];
+    }
+  }
+
+  private clearInput() {
+    this.titleinputElement.value = '';
+    this.descriptioninputElement.value = '';
+    this.peopleInputElement.value = '';
+  }
+
   @Autobind2
   private submitHandler(e: Event) {
     e.preventDefault();
-    console.log(this.titleinputElement.value);
+    const userInput = this.gatherUserInput();
+    if (Array.isArray(userInput)) {
+      const [title, desc, people] = userInput;
+      console.log(title, desc, people);
+      this.clearInput();
+    }
   }
 
   private configure() {
