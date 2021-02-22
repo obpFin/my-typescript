@@ -20,3 +20,13 @@ const printResult = true;
 const resultPhrase = 'Result is ';
 
 add(number1, number2, printResult, resultPhrase);
+
+// Tuples
+
+// Type alias
+type Drink = [string, boolean, number]
+
+const pepsi: Drink = ['brown', true, 40]
+const tea: Drink = ['brown', false, 0]
+
+

@@ -17,7 +17,7 @@ type ElevatedEmployee = Admin & Employee;
 const e1: ElevatedEmployee = {
   name: 'Max',
   privileges: ['create-server'],
-  startDate: new Date()
+  startDate: new Date(),
 };
 
 type Combinable2 = string | number;
@@ -41,7 +41,7 @@ result.split(' ');
 const fetchedUserData = {
   id: 'u1',
   name: 'max',
-  job: { title: 'ceo', description: 'my own company' }
+  job: { title: 'ceo', description: 'my own company' },
 };
 
 // optional chaining
@@ -50,7 +50,7 @@ const fetchedUserData = {
 const userInput2 = null;
 
 // nullish coalescing
-const storedData = userInput2 ?? 'default'
+const storedData = userInput2 ?? 'default';
 
 type UnknownEmployee = Employee | Admin;
 
@@ -84,12 +84,12 @@ class Truck {
   }
 }
 
-type Vehicle = Car | Truck;
+type Vehicle2 = Car | Truck;
 
 const v1 = new Car();
 const v2 = new Truck();
 
-function useVehicle(vehicle: Vehicle) {
+function useVehicle(vehicle: Vehicle2) {
   vehicle.drive();
   if (vehicle instanceof Truck) vehicle.loadCargo(1000);
 }
@@ -135,5 +135,5 @@ interface ErrorContainer {
 
 const errorBag: ErrorContainer = {
   email: 'Not a valid email',
-  username: 'Must start with a capital character'
+  username: 'Must start with a capital character',
 };
