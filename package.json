@@ -19,6 +19,7 @@
   "homepage": "https://github.com/obpFin/my-typescript#readme",
   "devDependencies": {
     "lite-server": "^2.5.4",
-    "minimist": ">=1.2.3"
+    "minimist": ">=1.2.3",
+    "typescript": "^4.2.3"
   }
 }
